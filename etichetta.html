@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Etichetta</title>
+  <style>
+    @media print {
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 101mm;
+        height: 54mm;
+        overflow: hidden;
+      }
+      #etichetta {
+        width: 101mm;
+        height: 54mm;
+        padding: 5px;
+        margin: 0;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-family: Helvetica, sans-serif;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="etichetta" style="border:1px solid red;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin:0; padding:0;">
+      <img id="logo" style="max-width:100%; max-height:70px; object-fit:contain; margin:0;" />
+      <img id="barcode" style="max-width:100%; max-height:70px; object-fit:contain; margin:0;" />
+    </div>
+
+    <div id="codice" style="font-size:160%; padding:0; margin:5px 0 0 0; overflow-wrap: break-word;"></div>
+
+    <div style="display:flex; justify-content:space-between; font-size:100%; padding:5px 0 0 0; margin:0;">
+      <span id="descrizione" style="width:65%; margin:0; padding:0; overflow-wrap: break-word;"></span>
+      <span style="width:35%; margin:0; padding:0; text-align:right; white-space: nowrap;">
+        Scadenza
+      </span>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; font-size:100%; padding:2px 0 0 0; margin:0;">
+      <span id="pesoinfo" style="width:65%; margin:0; padding:0; overflow-wrap: break-word;"></span>
+      <span id="scadenza" style="width:35%; margin:0; padding:0; text-align:right; white-space: nowrap;"></span>
+    </div>
+  </div>
+
+  <script>
+    const p = new URLSearchParams(window.location.search);
+
+    document.getElementById("logo").src = decodeURIComponent(p.get("logo") || "");
+    document.getElementById("barcode").src = decodeURIComponent(p.get("barcode") || "");
+    document.getElementById("codice").textContent = decodeURIComponent(p.get("codice") || "");
+    document.getElementById("descrizione").textContent = decodeURIComponent(p.get("descrizione") || "");
+
+    const peso = p.get("peso") || "";
+    const conf = p.get("conf") || "";
+    const crt = p.get("crt") || "";
+    const plt = p.get("plt") || "";
+
+    document.getElementById("pesoinfo").textContent = `${peso}kg x ${conf}  |  ${crt}crt X ${plt}plt`;
+
+    const scadenza = p.get("scadenza") || "";
+    document.getElementById("scadenza").textContent = decodeURIComponent(scadenza);
+
+    setTimeout(() => {
+      window.print();
+    }, 500);
+  </script>
+</body>
+</html>
