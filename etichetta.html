@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
   <meta charset="UTF-8">
@@ -45,21 +45,25 @@
       }
 
       #descrizione-row {
-        height: 10mm;
-        font-size: 100%;
+        height: auto;
+        font-size: 95%;
+        align-items: flex-start;
       }
 
       #descrizione {
         width: 65%;
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: 1.1;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
 
       .label-scadenza {
         width: 35%;
         text-align: right;
         white-space: nowrap;
+        align-self: flex-start;
       }
 
       #peso-row {
