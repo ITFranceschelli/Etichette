@@ -44,6 +44,20 @@
         text-overflow: ellipsis;
       }
 
+      #codice-valore {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      #ditta {
+        font-size: 60%;
+        color: #444;
+        white-space: nowrap;
+        margin-left: 5mm;
+        align-self: flex-end;
+      }
+
       #descrizione-row {
         height: auto;
         font-size: 95%;
@@ -106,8 +120,11 @@
       <img id="barcode" style="max-width: 48%;" />
     </div>
 
-    <!-- Codice Prodotto -->
-    <div id="codice"></div>
+    <!-- Codice Prodotto + Ditta -->
+    <div id="codice" class="row">
+      <span id="codice-valore"></span>
+      <span id="ditta"></span>
+    </div>
 
     <!-- Descrizione + Scadenza Label -->
     <div id="descrizione-row" class="row">
@@ -130,7 +147,8 @@
 
     document.getElementById("logo").src = decodeURIComponent(p.get("logo") || "");
     document.getElementById("barcode").src = decodeURIComponent(p.get("barcode") || "");
-    document.getElementById("codice").textContent = decodeURIComponent(p.get("codice") || "");
+    document.getElementById("codice-valore").textContent = decodeURIComponent(p.get("codice") || "");
+    document.getElementById("ditta").textContent = decodeURIComponent(p.get("ditta") || "");
     document.getElementById("descrizione").textContent = decodeURIComponent(p.get("descrizione") || "");
 
     const peso = p.get("peso") || "";
