@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>Etichetta</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     @media print {
       html, body {
         margin: 0;
@@ -11,60 +14,111 @@
         width: 101mm;
         height: 54mm;
         overflow: hidden;
+        font-family: Helvetica, sans-serif;
       }
+
       #etichetta {
         width: 101mm;
         height: 54mm;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-family: Helvetica, sans-serif;
+        display: flex;
+        flex-direction: column;
+        padding: 2mm;
+        gap: 1mm;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-barcode {
+        height: 18mm;
+      }
+
+      #codice {
+        font-size: 160%;
+        height: 7mm;
         overflow: hidden;
-        page-break-after: avoid;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      #descrizione-row {
+        height: 10mm;
+        font-size: 100%;
+      }
+
+      #descrizione {
+        width: 65%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .label-scadenza {
+        width: 35%;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      #peso-row {
+        height: 8mm;
+        font-size: 100%;
+      }
+
+      #pesoinfo {
+        width: 65%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #scadenza {
+        width: 35%;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .footer {
+        height: 5mm;
+        font-size: 70%;
+        color: gray;
+        text-align: center;
+      }
+
+      img {
+        object-fit: contain;
+        max-height: 100%;
       }
     }
   </style>
 </head>
 <body>
   <div id="etichetta">
-    <div style="display: flex; flex-direction: row;">
-      <div style="width:10mm;"></div>
-
-      <div style="flex:1;">
-
-        <!-- Logo + Barcode -->
-        <div style="display:flex; max-width:100mm; justify-content:space-between; align-items:center; margin:0; padding:0;">
-          <img id="logo" style="max-width:50mm; max-height:19mm; object-fit: contain;" />
-          <img id="barcode" style="max-width:50mm; max-height:19mm; object-fit: contain;" />
-        </div>
-
-        <!-- Codice Prodotto -->
-        <div id="codice" style="font-size:160%; padding:0; overflow-wrap: break-word; max-height:8mm; margin-top:2mm;"></div>
-
-        <!-- Descrizione + label "Scadenza" -->
-        <div style="display:flex; justify-content:space-between; font-size:100%; margin:0; max-height:12mm;">
-          <span id="descrizione" style="width:65%; margin:0; padding:0; overflow-wrap: break-word;"></span>
-          <span style="width:35%; margin:0; padding:0; text-align:right; white-space: nowrap;">
-            Scadenza
-          </span>
-        </div>
-
-        <!-- Peso + Quantità + Data Scadenza -->
-        <div style="display:flex; justify-content:space-between; font-size:100%; margin:0; max-height:10mm;">
-          <span id="pesoinfo" style="width:65%; margin:0; padding:0; overflow-wrap: break-word;"></span>
-          <span id="scadenza" style="width:35%; margin:0; padding:0; text-align:right; white-space: nowrap;"></span>
-        </div>
-
-        <!-- Footer -->
-        <div style="font-size:70%; color:gray; text-align:center; margin-top:1mm; max-height:5mm;">
-          Campionatura non destinata alla vendita
-        </div>
-
-      </div>
+    <!-- Logo + Barcode -->
+    <div class="row logo-barcode">
+      <img id="logo" style="max-width: 48%;" />
+      <img id="barcode" style="max-width: 48%;" />
     </div>
+
+    <!-- Codice Prodotto -->
+    <div id="codice"></div>
+
+    <!-- Descrizione + Scadenza Label -->
+    <div id="descrizione-row" class="row">
+      <span id="descrizione"></span>
+      <span class="label-scadenza">Scadenza</span>
+    </div>
+
+    <!-- Peso + Quantità + Data Scadenza -->
+    <div id="peso-row" class="row">
+      <span id="pesoinfo"></span>
+      <span id="scadenza"></span>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">Campionatura non destinata alla vendita</div>
   </div>
 
   <script>
@@ -80,14 +134,10 @@
     const crt = p.get("crt") || "";
     const plt = p.get("plt") || "";
 
-    document.getElementById("pesoinfo").textContent = `${peso}kg x ${conf}  |  ${crt}crt X ${plt}plt`;
+    document.getElementById("pesoinfo").textContent = `${peso}kg x ${conf} | ${crt}crt x ${plt}plt`;
+    document.getElementById("scadenza").textContent = decodeURIComponent(p.get("scadenza") || "");
 
-    const scadenza = p.get("scadenza") || "";
-    document.getElementById("scadenza").textContent = decodeURIComponent(scadenza);
-
-    setTimeout(() => {
-      window.print();
-    }, 500);
+    setTimeout(() => window.print(), 500);
   </script>
 </body>
 </html>
