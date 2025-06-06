@@ -20,15 +20,10 @@
       #etichetta {
         width: 101mm;
         height: 54mm;
-        margin: 0;
-        padding: 2mm;
-        position: absolute;
-        top: 0;
-        left: 0;
         display: flex;
         flex-direction: column;
+        padding: 2mm;
         gap: 1mm;
-        page-break-after: avoid;
       }
 
       .row {
@@ -43,24 +38,22 @@
 
       #codice {
         font-size: 160%;
-        height: 6mm;
-        white-space: nowrap;
+        height: 7mm;
         overflow: hidden;
+        white-space: nowrap;
         text-overflow: ellipsis;
       }
 
       #descrizione-row {
-        display: flex;
-        justify-content: space-between;
+        height: 10mm;
         font-size: 100%;
-        height: 12mm;
       }
 
       #descrizione {
         width: 65%;
-        white-space: normal;
-        overflow-wrap: break-word;
-        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .label-scadenza {
@@ -76,9 +69,9 @@
 
       #pesoinfo {
         width: 65%;
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       #scadenza {
@@ -97,7 +90,6 @@
       img {
         object-fit: contain;
         max-height: 100%;
-        max-width: 48%;
       }
     }
   </style>
@@ -106,15 +98,15 @@
   <div id="etichetta">
     <!-- Logo + Barcode -->
     <div class="row logo-barcode">
-      <img id="logo" />
-      <img id="barcode" />
+      <img id="logo" style="max-width: 48%;" />
+      <img id="barcode" style="max-width: 48%;" />
     </div>
 
     <!-- Codice Prodotto -->
     <div id="codice"></div>
 
     <!-- Descrizione + Scadenza Label -->
-    <div id="descrizione-row">
+    <div id="descrizione-row" class="row">
       <span id="descrizione"></span>
       <span class="label-scadenza">Scadenza</span>
     </div>
@@ -142,14 +134,10 @@
     const crt = p.get("crt") || "";
     const plt = p.get("plt") || "";
 
-    document.getElementById("pesoinfo").textContent = `${peso}kg x ${conf}  |  ${crt}crt X ${plt}plt`;
+    document.getElementById("pesoinfo").textContent = `${peso}kg x ${conf} | ${crt}crt x ${plt}plt`;
+    document.getElementById("scadenza").textContent = decodeURIComponent(p.get("scadenza") || "");
 
-    const scadenza = p.get("scadenza") || "";
-    document.getElementById("scadenza").textContent = decodeURIComponent(scadenza);
-
-    setTimeout(() => {
-      window.print();
-    }, 500);
+    setTimeout(() => window.print(), 500);
   </script>
 </body>
 </html>
