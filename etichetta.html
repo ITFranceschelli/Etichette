@@ -117,4 +117,30 @@
     <!-- Peso + Quantità + Data Scadenza -->
     <div id="peso-row" class="row">
       <span id="pesoinfo"></span>
-      <span id="scadenza"></sp
+      <span id="scadenza"></span>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">Campionatura non destinata alla vendita</div>
+  </div>
+
+  <script>
+    const p = new URLSearchParams(window.location.search);
+
+    document.getElementById("logo").src = decodeURIComponent(p.get("logo") || "");
+    document.getElementById("barcode").src = decodeURIComponent(p.get("barcode") || "");
+    document.getElementById("codice").textContent = decodeURIComponent(p.get("codice") || "");
+    document.getElementById("descrizione").textContent = decodeURIComponent(p.get("descrizione") || "");
+
+    const peso = p.get("peso") || "";
+    const conf = p.get("conf") || "";
+    const crt = p.get("crt") || "";
+    const plt = p.get("plt") || "";
+
+    document.getElementById("pesoinfo").textContent = `${peso}kg x ${conf} | ${crt}crt x ${plt}plt`;
+    document.getElementById("scadenza").textContent = decodeURIComponent(p.get("scadenza") || "");
+
+    setTimeout(() => window.print(), 500);
+  </script>
+</body>
+</html>
